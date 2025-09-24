@@ -1,0 +1,14 @@
+===[Einferia 1.0.0]===
+
+Einferia is a separate library integrated directly with EvieCore. 
+Einferia provides flexible tools for creating complete stories.
+
+Dependencies and requirements for running Einferia: 
+- Installed EvieCore at least 1.0.0 with all dependencies installed
+- Installed Arhion (It is also part of EvieCoreAdditional) at least 1.0.0 with all dependencies installed
+- Initialized Visual Scripting in Project Settings.
+
+What to do to make everything work like clockwork:
+- After installation, Regenerate Nodes in Visual Scripting located in Project Settings
+
+DOCUMENTATION: https://github.com/ShizzaHo/EvieCore/blob/main/README.md

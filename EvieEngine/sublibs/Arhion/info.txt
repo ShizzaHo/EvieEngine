@@ -1,0 +1,9 @@
+===[Arhion 1.0.0]===
+
+Arhion is a separate library integrated directly with EvieCore. 
+Arhion provides various tools for working with text data, provides a possibility to add localization to your project and also a preprocessor for TMP allowing you to implement your own modules for TMP image management
+
+Dependencies and requirements for running Arhion: 
+- Installed EvieCore at least 1.0.0 with all dependencies installed
+
+DOCUMENTATION: https://github.com/ShizzaHo/EvieCore/blob/main/README.md
