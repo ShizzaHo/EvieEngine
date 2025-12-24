@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: center;">
+        <ui:Button style="background-image: url(&quot;project://database/Assets/EvieEngine/Assets/Logo.png?fileID=2800000&amp;guid=c0b68102939eb2a4d89fb07f64186198&amp;type=3#Logo&quot;); background-color: rgba(0, 0, 0, 0); width: 142px; height: 142px;" />
+        <ui:Label text="Добро пожаловать в EvieEngine!" style="-unity-text-align: upper-center; font-size: 14px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/EvieEngine/Assets/Fonts/DelaGothicOne-Regular.ttf?fileID=12800000&amp;guid=883bf865ef3bbfb4eb53006813c56b10&amp;type=3#DelaGothicOne-Regular&quot;); color: rgb(255, 255, 255);" />
+        <ui:Label text="Для начала работы рекомендуется установить зависимости" style="-unity-text-align: upper-center; font-size: 11px; -unity-font-style: bold; -unity-font-definition: url(&quot;project://database/Assets/EvieEngine/Assets/Fonts/DelaGothicOne-Regular.ttf?fileID=12800000&amp;guid=883bf865ef3bbfb4eb53006813c56b10&amp;type=3#DelaGothicOne-Regular&quot;); color: rgb(202, 202, 202); white-space: normal;" />
+        <ui:Button text="ProBuilder" />
+    </ui:VisualElement>
+</ui:UXML>

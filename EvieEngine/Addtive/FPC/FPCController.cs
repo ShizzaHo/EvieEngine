@@ -36,7 +36,7 @@ namespace EvieEngine.FPC
         public float HP = 100;
         public float MaxHP = 100;
     
-        [Header("Регенерация здоровья")]
+        [Header("Регенерация здоровья (NOT WORKING)")]
         public bool allowRegenerate = false;
         public float regenerationRate = 1f;     
         public float regenerationDelay = 1f;
