@@ -53,7 +53,7 @@ https://assetstore.unity.com/packages/p/toon-muzzleflash-pack-56572
 
 [Утилиты](./utils.md)
 
-Интеграция в Editor
+[Интеграция в Editor](./editorintegration.md)
 
 
 # "Фишки" EvieEngine
