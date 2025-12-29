@@ -31,6 +31,10 @@ https://github.com/codewriter-packages/Unity-Localization-Stub-for-Tri-Inspector
 
 https://docs.unity3d.com/Packages/com.unity.probuilder@6.0/manual/installing.html
 
+#### Node Based Dialog System (Теперь это вместо Einferia)
+
+https://assetstore.unity.com/packages/tools/game-toolkits/node-based-dialog-system-249962
+
 #### Unity-URP-Volumetric-Light (Поддержка объемного освещения)
 
 https://github.com/CristianQiu/Unity-URP-Volumetric-Light.git

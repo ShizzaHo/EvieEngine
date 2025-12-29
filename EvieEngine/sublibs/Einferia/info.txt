@@ -1,3 +1,7 @@
+DEPRECATED DEPRECATED DEPRECATED
+DEPRECATED DEPRECATED DEPRECATED
+DEPRECATED DEPRECATED DEPRECATED
+
 ===[Einferia 1.0.0]===
 
 Einferia is a separate library integrated directly with EvieCore. 

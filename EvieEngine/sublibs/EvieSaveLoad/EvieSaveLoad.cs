@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using EvieEngine;
 using UnityEngine;
 
 namespace Eviecore
@@ -22,7 +23,7 @@ namespace Eviecore
     {
         public static EvieSaveLoad Instance { get; private set; }
 
-        private readonly EvieFS fileSystem;
+        private readonly FileSystem fileSystem;
         private readonly string saveDirectory;
         private readonly string defaultSaveFileName = "savegame.json";
         private string lastSaveFileName;
@@ -31,16 +32,16 @@ namespace Eviecore
 
         private EvieSaveLoad()
         {
-            fileSystem = EvieFS.Instance;
+            fileSystem = FileSystem.Instance;
             saveDirectory = Path.Combine(fileSystem.systemDocumentDir, Application.productName, "saves");
 
-            // Создаём директорию для сохранений, если её нет
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ
             if (!fileSystem.isDirExist(saveDirectory)) fileSystem.CreateDir(saveDirectory);
 
-            // Ищем последнее сохранение
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             lastSaveFileName = GetLastSaveFileName();
 
-            // Инициализируем текущие данные
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             currentData = new GameData();
         }
 
@@ -52,13 +53,13 @@ namespace Eviecore
             }
         }
 
-        // Сохранение данных в текущем объекте
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         public void Save(string fileName = null)
         {
             fileName ??= defaultSaveFileName;
             string fullPath = Path.Combine(saveDirectory, fileName);
 
-            // Используем DictionaryJSON для сериализации
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DictionaryJSON пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             string json = DictionaryJSON.Serialize(currentData.keyValuePairs);
             File.WriteAllText(fullPath, json);
 
@@ -66,7 +67,7 @@ namespace Eviecore
             Debug.Log($"[EVIECORE/SYBLIBS/EVIESAVELOAD/LOG] Game saved to: {fullPath}");
         }
 
-        // Загрузка данных
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         public void Load(string fileName = null)
         {
             fileName ??= lastSaveFileName ?? defaultSaveFileName;
@@ -75,7 +76,7 @@ namespace Eviecore
             if (fileSystem.isFileExist(fullPath))
             {
                 string json = File.ReadAllText(fullPath);
-                // Используем DictionaryJSON для десериализации
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ DictionaryJSON пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 currentData.keyValuePairs = DictionaryJSON.Deserialize(json);
                 ExecuteOnLoad();
                 Debug.Log($"[EVIECORE/SYBLIBS/EVIESAVELOAD/LOG] Game loaded from: {fullPath}");
@@ -87,33 +88,33 @@ namespace Eviecore
             }
         }
 
-        // Выполняет OnLoad на всех экземплярах EvieOnLoad
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ OnLoad пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ EvieOnLoad
         private void ExecuteOnLoad()
         {
-            // Найти все объекты на сцене
-            EvieOnLoad[] evieObjects = FindObjectsOfType<MonoBehaviour>(true) // true включает неактивные объекты
+            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+            EvieOnLoad[] evieObjects = FindObjectsOfType<MonoBehaviour>(true) // true пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 .OfType<EvieOnLoad>()
                 .ToArray();
 
-            // Вызвать OnLoad у всех найденных объектов
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ OnLoad пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             foreach (EvieOnLoad evie in evieObjects)
             {
                 evie.OnLoad();
             }
         }
 
-        // Удаление сохранения
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         public void DeleteSave(string fileName)
         {
             string fullPath = Path.Combine(saveDirectory, fileName);
             fileSystem.DeleteFile(fullPath);
 
-            // Обновляем последнее сохранение
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             lastSaveFileName = GetLastSaveFileName();
             Debug.Log($"[EVIECORE/SYBLIBS/EVIESAVELOAD/LOG] Save file {fileName} deleted.");
         }
 
-        // Получение всех сохранений
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         public List<string> GetAllSaveFiles()
         {
             return Directory.GetFiles(saveDirectory, "*.json")
@@ -121,14 +122,14 @@ namespace Eviecore
                 .ToList();
         }
 
-        // Получение имени последнего сохранения
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         private string GetLastSaveFileName()
         {
             var files = GetAllSaveFiles();
             return files.OrderByDescending(f => File.GetLastWriteTime(Path.Combine(saveDirectory, f))).FirstOrDefault();
         }
 
-        // Работа с ключами
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         public void SetKeyValue<T>(string key, T value)
         {
             if (currentData.keyValuePairs.ContainsKey(key))

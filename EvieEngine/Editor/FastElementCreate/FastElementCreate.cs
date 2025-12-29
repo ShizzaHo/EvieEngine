@@ -3,11 +3,12 @@ using UnityEditor;
 using UnityEngine;
 
 using EvieEngine;
+using EvieEngine.Audio;
 using EvieEngine.messages;
 
 public class FastElementCreate : MonoBehaviour
 {
-    [MenuItem("GameObject/EvieEngine/Глобальный объект EvieEngine", false, 10)]
+    [MenuItem("GameObject/Evie Engine/Глобальный объект EvieEngine", false, 10)]
     static void CreateEvieEngine()
     {
         GameObject go = new GameObject("EvieEngine");
@@ -15,7 +16,7 @@ public class FastElementCreate : MonoBehaviour
         Selection.activeGameObject = go;
     }
     
-    [MenuItem("GameObject/EvieEngine/Менеджеры/Message Manager", false, 10)]
+    [MenuItem("GameObject/Evie Engine/Менеджеры/Message Manager", false, 10)]
     static void CreateMessageManager()
     {
         GameObject go = new GameObject("MessageManager");
@@ -23,7 +24,7 @@ public class FastElementCreate : MonoBehaviour
         Selection.activeGameObject = go;
     }
     
-    [MenuItem("GameObject/EvieEngine/Менеджеры/State Manager", false, 10)]
+    [MenuItem("GameObject/Evie Engine/Менеджеры/State Manager", false, 10)]
     static void CreateStateManager()
     {
         GameObject go = new GameObject("StateManager");
@@ -31,7 +32,7 @@ public class FastElementCreate : MonoBehaviour
         Selection.activeGameObject = go;
     }
     
-    [MenuItem("GameObject/EvieEngine/Менеджеры/Trigger Manager", false, 10)]
+    [MenuItem("GameObject/Evie Engine/Менеджеры/Trigger Manager", false, 10)]
     static void CreateTriggerManager()
     {
         GameObject go = new GameObject("TriggerManager");
@@ -39,7 +40,15 @@ public class FastElementCreate : MonoBehaviour
         Selection.activeGameObject = go;
     }
     
-    [MenuItem("GameObject/EvieEngine/Модули/First Person Controller (Готовый к использованию)", false, 10)]
+    [MenuItem("GameObject/Evie Engine/Менеджеры/Audio Manager", false, 10)]
+    static void CreateAudioManager()
+    {
+        GameObject go = new GameObject("AudioManager");
+        go.AddComponent<AudioManager>();
+        Selection.activeGameObject = go;
+    }
+    
+    [MenuItem("GameObject/Evie Engine/Модули/First Person Controller (Готовый к использованию)", false, 10)]
     static void CreateFPC()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
@@ -58,7 +67,7 @@ public class FastElementCreate : MonoBehaviour
         Selection.activeGameObject = instance;
     }
     
-    [MenuItem("GameObject/EvieEngine/Модули/HUD (Готовый к использованию)", false, 10)]
+    [MenuItem("GameObject/Evie Engine/Модули/HUD (Готовый к использованию)", false, 10)]
     static void CreateFPCHUD()
     {
         var selected = Selection.activeGameObject;
@@ -104,7 +113,7 @@ public class FastElementCreate : MonoBehaviour
         }
     }
 
-    [MenuItem("GameObject/EvieEngine/Модули/HUD (Готовый к использованию)", true)]
+    [MenuItem("GameObject/Evie Engine/Модули/HUD (Готовый к использованию)", true)]
     static bool ValidateCreateFPCHUD()
     {
         return Selection.activeGameObject != null &&
