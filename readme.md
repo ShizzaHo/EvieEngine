@@ -23,7 +23,7 @@ EvieEngine на русском языке, в отличии от EvieCore! По
 
 ### Зависимости
 
-#### Tri-Inspector (КРАЙНЕ РЕКОМЕНДУЕМО, ПРАКТИЧЕСКИ ОБЯЗАТЕЛЬНО)
+#### Tri-Inspector (ОБЯЗАТЕЛЬНО)
 
 https://github.com/codewriter-packages/Unity-Localization-Stub-for-Tri-Inspector.git
 
@@ -31,7 +31,7 @@ https://github.com/codewriter-packages/Unity-Localization-Stub-for-Tri-Inspector
 
 https://docs.unity3d.com/Packages/com.unity.probuilder@6.0/manual/installing.html
 
-#### Node Based Dialog System (Теперь это вместо Einferia)
+#### Node Based Dialog System (Рекомендуемо, теперь это вместо Einferia)
 
 https://assetstore.unity.com/packages/tools/game-toolkits/node-based-dialog-system-249962
 
@@ -49,22 +49,22 @@ https://assetstore.unity.com/packages/p/toon-muzzleflash-pack-56572
 
 ## Углубленная документация 
 
-[Менеджеры](./managers.md)
+[Менеджеры](./docs/managers.md)
 
-[Дополнительные модули](./addtive.md)
+[Инфраструктурные модули](./DOCS/infrastructure.md)
 
-[Под библиотеки](./sublibs.md)
+[Игровые системы](./docs/gameSystems.md)
 
-[Утилиты](./utils.md)
+[Утилиты](./docs/utils.md)
 
-[Интеграция в Editor](./editorintegration.md)
+[Интеграция в Editor](./docs/editorintegration.md)
 
 
 # "Фишки" EvieEngine
 
 ## Быстрый запуск проекта
 
-![Быстрый запуск](./src/fastRun.png)
+![Быстрый запуск](fastRun.png)
 Классная фича которая ускорит запуск вашей сцены в десятки раз!
 Хз чем это чревато, но опыт разработки двух проектов на EvieEnigne показал что **НИЧЕМ**
 

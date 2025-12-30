@@ -2,31 +2,35 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-public class ProjectInitWindow  : EditorWindow
+namespace EvieEngine.Editor
 {
-    [MenuItem("Evie Engine/Инициализатор")]
-    static void InitializeProject()
+    public class ProjectInitWindow : EditorWindow
     {
-        ProjectInitWindow window = GetWindow<ProjectInitWindow>();
-        window.titleContent = new GUIContent("Инициализатор");
-    }
-    
-    private void OnGUI()
-    {
-        if (EditorApplication.isPlaying)
+        [MenuItem("Evie Engine/Инициализатор")]
+        static void InitializeProject()
         {
-            rootVisualElement.Q<VisualElement>("warning").visible = false;
+            ProjectInitWindow window = GetWindow<ProjectInitWindow>();
+            window.titleContent = new GUIContent("Инициализатор");
         }
-        else
+
+        private void OnGUI()
         {
-            rootVisualElement.Q<VisualElement>("warning").visible = true;
+            if (EditorApplication.isPlaying)
+            {
+                rootVisualElement.Q<VisualElement>("warning").visible = false;
+            }
+            else
+            {
+                rootVisualElement.Q<VisualElement>("warning").visible = true;
+            }
         }
-    }
-    
-    void CreateGUI()
-    {
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/EvieEngine/Editor/ProjectInitWindow/init.uxml");
-        var clone = visualTree.Instantiate();
-        rootVisualElement.Add(clone);
+
+        void CreateGUI()
+        {
+            var visualTree =
+                AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/EvieEngine/Editor/ProjectInitWindow/init.uxml");
+            var clone = visualTree.Instantiate();
+            rootVisualElement.Add(clone);
+        }
     }
 }

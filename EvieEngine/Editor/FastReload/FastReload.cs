@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace EvieEngine.debug
+namespace EvieEngine.Editor
 {
     public static class TogglePlayModeOptions
     {

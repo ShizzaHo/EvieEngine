@@ -1,8 +1,8 @@
-namespace EvieEngine
-{
-    using UnityEngine;
-    using UnityEditor;
+using UnityEngine;
+using UnityEditor;
 
+namespace EvieEngine.Editor
+{
     [InitializeOnLoad]
     public class DebugBoundingBoxDrawer
     {

@@ -1,5 +1,5 @@
 using System;
-using EvieEngine.messages;
+using EvieEngine.Messages;
 using UnityEngine;
 
 public class EvieDemo_MaZ : MonoBehaviour

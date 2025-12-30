@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EvieEngine
 {
-    public class EvieEngine : MonoBehaviour
+    public class EvieEngineGlobalObject : MonoBehaviour
     {
         [Title("Не удалять объект при смене сцены")]
         public bool DontDestroyOnLoad = true;

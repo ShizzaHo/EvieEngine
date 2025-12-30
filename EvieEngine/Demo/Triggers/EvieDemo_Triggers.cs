@@ -1,3 +1,4 @@
+using EvieEngine.Triggers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

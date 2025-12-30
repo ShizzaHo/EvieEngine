@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using EvieEngine.Triggers;
 
-namespace Eviecore
+namespace EvieEngine.Editor
 {
-
     public class TriggerManagerEditor : EditorWindow
     {
         private Vector2 scrollPosition;

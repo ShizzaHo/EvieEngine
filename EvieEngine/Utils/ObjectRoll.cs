@@ -40,25 +40,19 @@ namespace EvieEngine.Utils
             float mouseX = Input.GetAxis("Mouse X") * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * Time.deltaTime;
 
-            // Calculate target rotation based on mouse movement
             targetZRotation = -mouseX * maxRollAngle;
             targetZRotation = Mathf.Clamp(targetZRotation, -maxRollAngle, maxRollAngle);
 
-            // Smoothly interpolate to the target rotation
             currentZRotation = Mathf.Lerp(currentZRotation, targetZRotation, rollSpeed * Time.deltaTime);
 
-            // Apply roll rotation
             transform.localRotation = initialRotation * Quaternion.Euler(0, 0, currentZRotation);
 
-            // Calculate weapon sway based on mouse movement
             Vector3 swayOffset = new Vector3(-mouseX * swayAmount, -mouseY * swayAmount, 0);
             swayOffset = Vector3.ClampMagnitude(swayOffset, maxSwayDistance);
 
-            // Smoothly interpolate to the target position
             targetPosition = initialPosition + swayOffset;
             currentPosition = Vector3.Lerp(currentPosition, targetPosition, swaySpeed * Time.deltaTime);
 
-            // Apply sway position
             transform.localPosition = currentPosition;
         }
     }
