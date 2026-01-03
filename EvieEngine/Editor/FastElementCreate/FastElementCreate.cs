@@ -49,7 +49,7 @@ namespace EvieEngine.Editor
             Selection.activeGameObject = go;
         }
 
-        [MenuItem("GameObject/Evie Engine/Модули/First Person Controller (Готовый к использованию)", false, 10)]
+        [MenuItem("GameObject/Evie Engine/Игровые системы/First Person Controller (Готовый к использованию)", false, 10)]
         static void CreateFPC()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
@@ -68,7 +68,7 @@ namespace EvieEngine.Editor
             Selection.activeGameObject = instance;
         }
 
-        [MenuItem("GameObject/Evie Engine/Модули/HUD (Готовый к использованию)", false, 10)]
+        [MenuItem("GameObject/Evie Engine/Игровые системы/HUD (Готовый к использованию)", false, 10)]
         static void CreateFPCHUD()
         {
             var selected = Selection.activeGameObject;
@@ -114,7 +114,7 @@ namespace EvieEngine.Editor
             }
         }
 
-        [MenuItem("GameObject/Evie Engine/Модули/HUD (Готовый к использованию)", true)]
+        [MenuItem("GameObject/Evie Engine/Игровые системы/HUD (Готовый к использованию)", true)]
         static bool ValidateCreateFPCHUD()
         {
             return Selection.activeGameObject != null &&

@@ -6,13 +6,16 @@ namespace EvieEngine.FPC
 {
     public class FPCCamera : MonoBehaviour
     {
-        [Title("Настройка чувствительности")] public float mouseSensitivity = 150f;
+        [Title("Настройка чувствительности")]
+        public float mouseSensitivity = 150f;
+
         public float verticalLookRange = 80f;
-        private float xRotation = 0f;
 
-        [Title("Настройка поведения")] public bool allowCameraRotate = true;
+        [Title("Настройка поведения")]
+        public bool allowCameraRotate = true;
 
-        [Title("Настройка анимации камеры")] public bool enableTiltLook = true;
+        [Title("Настройка анимации камеры")]
+        public bool enableTiltLook = true;
         public bool enableMovementTilt = true;
         public bool enableMovementShake = true;
         public bool enableRunningShake = true;
@@ -21,10 +24,12 @@ namespace EvieEngine.FPC
         public Transform oppositeReactObject;
 
         [HideInInspector] public CameraEffectsManager effectsManager;
-        
+
+        protected float xRotation = 0f;
+
         public static FPCCamera Instance { get; private set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (Instance != null && Instance != this)
             {
@@ -35,8 +40,8 @@ namespace EvieEngine.FPC
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        
-        private void Start()
+
+        protected virtual void Start()
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -56,41 +61,61 @@ namespace EvieEngine.FPC
                 AddCameraEffect(new CameraRunningShakeEffect());
         }
 
-        private void Update()
+        protected virtual void Update()
         {
+            OnBeforeCameraControl();
+
             if (allowCameraRotate)
                 CameraControl();
+
+            OnAfterCameraControl();
         }
 
-        private void LateUpdate()
+        protected virtual void LateUpdate()
         {
-            // Применяем эффекты после вращения мышью
+            OnBeforeApplyEffects();
+
+            // Применяем эффекты камеры
             transform.localPosition = effectsManager.PositionOffset;
             transform.localRotation *= Quaternion.Euler(effectsManager.RotationOffset);
 
-            // Применяем обратные эффекты к выбранному объекту
+            // Обратная реакция объекта
             if (oppositeReactObject != null)
             {
-                oppositeReactObject.localPosition = -effectsManager.PositionOffset * 0.5f;
-                oppositeReactObject.localRotation = Quaternion.Euler(-effectsManager.RotationOffset * 0.5f);
+                oppositeReactObject.localPosition =
+                    -effectsManager.PositionOffset * 0.5f;
+
+                oppositeReactObject.localRotation =
+                    Quaternion.Euler(-effectsManager.RotationOffset * 0.5f);
             }
+
+            OnAfterApplyEffects();
         }
 
-        private void CameraControl()
+        protected virtual void OnBeforeCameraControl() { }
+        protected virtual void OnAfterCameraControl() { }
+
+        protected virtual void OnBeforeApplyEffects() { }
+        protected virtual void OnAfterApplyEffects() { }
+
+        protected virtual void CameraControl()
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
             xRotation -= mouseY;
             xRotation = Mathf.Clamp(xRotation, -verticalLookRange, verticalLookRange);
+
             transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-            float horizontalRotation = transform.parent.rotation.eulerAngles.y + mouseX;
-            transform.parent.rotation = Quaternion.Euler(0f, horizontalRotation, 0f);
+            float horizontalRotation =
+                transform.parent.rotation.eulerAngles.y + mouseX;
+
+            transform.parent.rotation =
+                Quaternion.Euler(0f, horizontalRotation, 0f);
         }
 
-        // Вызов для добавления эффекта извне
-        public void AddCameraEffect(CameraEffect effect)
+        public virtual void AddCameraEffect(CameraEffect effect)
         {
             effectsManager.AddEffect(effect);
         }

@@ -9,9 +9,8 @@ namespace EvieEngine.FPC
 {
     public class FPCController : MonoBehaviour
     {
-        // PUBLIC
-        [Title("Настройка скоростей")] [HideInInspector]
-        public float curretSpeed = 5f;
+        [Title("Настройка скоростей")] 
+        [HideInInspector] public float curretSpeed = 5f;
 
         public float moveSpeed = 5f;
         public float runSpeed = 10f;
@@ -29,46 +28,43 @@ namespace EvieEngine.FPC
         public bool allowMovement = true;
         public bool allowRunning = true;
         public bool allowJump = true;
-        
+
         [Title("Настройка характеристик")]
-        
+
         [Header("Здоровье")]
         public Image damageImage;
         public float HP = 100;
         public float MaxHP = 100;
-    
+
         [Header("Регенерация здоровья (NOT WORKING)")]
         public bool allowRegenerate = false;
-        public float regenerationRate = 1f;     
+        public float regenerationRate = 1f;
         public float regenerationDelay = 1f;
-        private float regenTimer;
+        protected float regenTimer;
 
         [Header("Стамина")]
         public bool infiniteStamina = false;
         public float stamina = 100f;
         public float staminaMAX = 100f;
-        
-        [Header("Регенерация стамины")]
-        public float staminaRegenerationRate = 10f;     
-        public float staminaRegenerationDelay = 1f;
-        private float staminaRegenTimer;
-        
-        [Header("Настройка снижения стамины")]
-        public float staminaRunningRate = 1f;     
-        public float staminaJumpingRate = 1f;     
 
-        // PRIVATE
-        private Rigidbody rb;
-        private bool isGrounded;
+        [Header("Регенерация стамины")]
+        public float staminaRegenerationRate = 10f;
+        public float staminaRegenerationDelay = 1f;
+        protected float staminaRegenTimer;
+
+        [Header("Настройка снижения стамины")]
+        public float staminaRunningRate = 1f;
+        public float staminaJumpingRate = 1f;
+        
+        protected Rigidbody rb;
+        protected bool isGrounded;
         [HideInInspector] public bool isRunning;
-        
-        private STATSHUDManager stats;
-        
-        // SINGLETONE
-        
+
+        protected STATSHUDManager stats;
+
         public static FPCController Instance { get; private set; }
-        
-        private void Awake()
+
+        protected virtual void Awake()
         {
             if (Instance != null && Instance != this)
             {
@@ -80,69 +76,69 @@ namespace EvieEngine.FPC
             DontDestroyOnLoad(gameObject);
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             rb = GetComponent<Rigidbody>();
-            
             stats = FindObjectOfType<STATSHUDManager>();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
             CheckGrounded();
+
+            OnBeforeMovement();
 
             if (allowMovement)
             {
                 PlayerMovement();
 
                 if (allowRunning)
-                {
                     PlayerRunning();
-                }
 
                 if (allowJump)
-                {
                     PlayerJump();
-                }
             }
-            
+
             RegenerateStamina();
+
+            OnAfterMovement();
         }
-        
-        private void RegenerateStamina()
+
+        protected virtual void OnBeforeMovement() { }
+        protected virtual void OnAfterMovement() { }
+
+        protected virtual void RegenerateStamina()
         {
-            // Если игрок не бегает и не прыгает — начинаем регенерацию
             if (!isRunning && stamina < staminaMAX)
             {
-                // Увеличиваем таймер регенерации
                 staminaRegenTimer += Time.deltaTime;
 
                 if (staminaRegenTimer >= staminaRegenerationDelay)
                 {
-                    // Регенерируем стамину
                     stamina += staminaRegenerationRate * Time.deltaTime;
-                    stamina = Mathf.Min(stamina, staminaMAX); // Ограничиваем максимумом
+                    stamina = Mathf.Min(stamina, staminaMAX);
                 }
             }
             else
             {
-                // Если игрок бегает или стамина полная — сбрасываем таймер
                 staminaRegenTimer = 0f;
             }
         }
 
-        private void CheckGrounded()
+        protected virtual void CheckGrounded()
         {
-            RaycastHit hit;
-            isGrounded = Physics.Raycast(transform.position, Vector3.down, out hit, groundCheckDistance);
+            isGrounded = Physics.Raycast(
+                transform.position,
+                Vector3.down,
+                groundCheckDistance
+            );
         }
 
-        private void PlayerMovement()
+        protected virtual void PlayerMovement()
         {
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
-            // --- Горизонтальное движение ---
             Vector3 cameraForward = PlayerCamera.transform.forward;
             Vector3 cameraRight = PlayerCamera.transform.right;
 
@@ -151,20 +147,14 @@ namespace EvieEngine.FPC
             cameraForward.Normalize();
             cameraRight.Normalize();
 
-            // Получаем ненормализованный вектор движения
-            Vector3 moveDirection = (cameraForward * vertical + cameraRight * horizontal);
+            Vector3 moveDirection = cameraForward * vertical + cameraRight * horizontal;
 
-            // Нормализуем, если есть движение
             if (moveDirection.sqrMagnitude > 0.001f)
                 moveDirection.Normalize();
 
-            // Вычисляем желаемую горизонтальную скорость
             Vector3 desiredHorizontalVelocity = moveDirection * curretSpeed;
-
-            // --- Сохраняем текущую вертикальную скорость (важно!) ---
             float currentYVelocity = rb.linearVelocity.y;
 
-            // --- Если игрок не двигается по горизонтали — плавно затухаем горизонтальную составляющую ---
             if (horizontal == 0 && vertical == 0)
             {
                 rb.linearVelocity = new Vector3(
@@ -183,17 +173,19 @@ namespace EvieEngine.FPC
             }
         }
 
-
-        private void PlayerJump()
+        protected virtual void PlayerJump()
         {
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded && stamina >= staminaJumpingRate)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
                 if (enableJumpAnimateCamera)
                 {
-                    FPCCamera.Instance.effectsManager.AddEffect(new CameraJumpEffect(1f));
+                    FPCCamera.Instance.effectsManager.AddEffect(
+                        new CameraJumpEffect(1f)
+                    );
                 }
-                
+
                 if (!infiniteStamina)
                 {
                     stamina -= staminaRunningRate * Time.deltaTime;
@@ -202,7 +194,7 @@ namespace EvieEngine.FPC
             }
         }
 
-        private void PlayerRunning()
+        protected virtual void PlayerRunning()
         {
             if (Input.GetKey(KeyCode.LeftShift) && isGrounded && stamina >= staminaRunningRate)
             {
@@ -222,10 +214,12 @@ namespace EvieEngine.FPC
             }
         }
 
-        public void TakeDamage(float damage)
+        public virtual void TakeDamage(float damage)
         {
             HP -= damage;
-            FPCCamera.Instance.effectsManager.AddEffect(new CameraDamageEffect(1));
+            FPCCamera.Instance.effectsManager.AddEffect(
+                new CameraDamageEffect(1)
+            );
             stats.DamageEffect(damage);
         }
     }
